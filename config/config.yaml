@@ -1,0 +1,89 @@
+# Customer Support AI Agent Configuration
+
+project:
+  name: "Customer Support AI Agent"
+  version: "1.0.0"
+  random_seed: 42
+
+brand:
+  selected: "AppleSupport"
+  description: "Official Apple Support on Twitter dealing with iOS, macOS, battery, iCloud, Apple ID, hardware, audio, and store queries."
+
+data:
+  raw_remote_url: "https://huggingface.co/datasets/TNE-AI/customer-support-on-twitter-conversation/resolve/main/data/train-00000-of-00001.parquet"
+  raw_path: "data/raw/Customer_Support_on_Twitter_Conversations.parquet"
+  processed_pairs_path: "data/processed/brand_conversations.parquet"
+  train_split_path: "data/processed/dev_split.parquet"
+  test_split_path: "data/processed/eval_pool.parquet"
+  golden_set_path: "evaluation/golden_set.csv"
+  index_path: "data/processed/retrieval_index.pkl"
+  tfidf_model_path: "data/processed/tfidf_classifier.pkl"
+  dev_split_ratio: 0.85
+
+taxonomy:
+  intents:
+    - id: "battery_and_charging"
+      name: "Battery & Charging Issues"
+      description: "Complaints regarding battery drain, rapid discharging, overheating while charging, cable/charger faults, or battery health drops."
+    - id: "ios_software_update_bugs"
+      name: "iOS & Software Update Bugs"
+      description: "Bugs, app crashes, freezes, screen lag, keyboard glitches, or performance issues occurring after or during an iOS/macOS update."
+    - id: "apple_id_and_icloud"
+      name: "Apple ID & iCloud Access"
+      description: "Locked accounts, password reset failures, two-factor authentication loops, verification code issues, and iCloud storage synchronization problems."
+    - id: "hardware_audio_and_screen"
+      name: "Hardware, Screen & Audio Defects"
+      description: "Physical screen damage, touch screen unresponsiveness, speaker/microphone distortions, AirPods connectivity/sound failure, or camera hardware defects."
+    - id: "app_store_billing_and_subscriptions"
+      name: "App Store, Billing & Subscriptions"
+      description: "Unrecognized credit card charges, refund requests for apps/in-app purchases, failed subscription cancellations, and payment method declined."
+    - id: "order_shipping_and_trade_in"
+      name: "Order, Shipping & Trade-In"
+      description: "Online Apple Store order tracking, delayed delivery, trade-in kit inquiries, return status, or pickup delays at Apple Retail stores."
+    - id: "general_how_to_and_features"
+      name: "How-To & Feature Inquiries"
+      description: "Questions on how to configure settings, transfer data to a new device, pair Bluetooth accessories, use AirDrop/CarPlay, or feature availability."
+    - id: "general_complaint_and_escalation"
+      name: "General Complaints & Dissatisfaction"
+      description: "Vague dissatisfaction with Apple products/support, threat to switch to Android/competitors, store customer service complaints, or unresolved long-standing tickets."
+    - id: "other"
+      name: "Other / Unrelated"
+      description: "Spam, emojis only, completely ambiguous questions lacking context, or unrelated inquiries outside Apple Support scope."
+
+retrieval:
+  model_name: "all-MiniLM-L6-v2"
+  top_k: 3
+  similarity_threshold: 0.45
+  use_tfidf_fallback: true
+
+classifier:
+  type: "hybrid" # Options: "tfidf", "embedding", "hybrid", "llm"
+  confidence_threshold: 0.65
+
+generation:
+  provider: "offline" # Options: "offline", "gemini", "openai"
+  model: "gemini-1.5-flash"
+  temperature: 0.2
+  max_tokens: 250
+
+escalation:
+  min_confidence: 0.65
+  min_retrieval_similarity: 0.45
+  auto_escalate_intents:
+    - "app_store_billing_and_subscriptions"
+    - "apple_id_and_icloud"
+  risk_keywords:
+    - "refund"
+    - "charge"
+    - "charged twice"
+    - "unauthorized"
+    - "stolen"
+    - "hacked"
+    - "lawyer"
+    - "sue"
+    - "fraud"
+    - "dispute"
+    - "manager"
+    - "supervisor"
+    - "human"
+    - "agent"

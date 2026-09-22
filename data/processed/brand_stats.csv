@@ -1,0 +1,15 @@
+brand,total_conversations,avg_conv_length,category
+AmazonHelp,81092,531.7,E-Commerce & Retail
+AppleSupport,76639,346.5,Consumer Tech & Media
+Uber_Support,41185,337.1,Ride-sharing & Logistics
+SpotifyCares,27910,371.1,Consumer Tech & Media
+Delta,25151,347.4,Airlines & Travel
+AmericanAir,25061,354.7,Airlines & Travel
+comcastcares,23442,341.1,Telecom & ISP
+TMobileHelp,22322,379.4,Telecom & ISP
+SouthwestAir,20784,316.3,Airlines & Travel
+Ask_Spectrum,17770,354.4,Consumer Tech & Media
+Tesco,15893,530.3,E-Commerce & Retail
+UPSHelp,14843,362.0,General
+hulu_support,14630,377.8,Consumer Tech & Media
+British_Airways,14610,431.0,Airlines & Travel

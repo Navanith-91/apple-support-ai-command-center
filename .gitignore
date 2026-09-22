@@ -1,0 +1,35 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Environment Variables
+.env
+*.env.local
+
+# Large Datasets & Vectors
+data/raw/
+models/
+indices/
+*.faiss
+
+# Allow deployment assets (under 25MB each)
+!data/processed/retrieval_index.pkl
+!data/processed/tfidf_classifier.pkl
+!data/processed/brand_conversations.parquet
+!data/processed/brand_stats.csv
+!data/processed/evaluation_results.json
+!data/processed/evaluation_results.csv
+!data/golden/*.csv
+
+# Logs & IDE
+*.log
+.vscode/
+.idea/
+.system_generated/
